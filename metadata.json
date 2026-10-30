@@ -1,0 +1,6 @@
+{
+  "name": "Calculadora de Juros Compostos",
+  "description": "Simule juros compostos, aportes mensais e o crescimento dos seus investimentos com uma calculadora simples e gratuita.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
