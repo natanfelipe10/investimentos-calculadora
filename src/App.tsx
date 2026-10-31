@@ -92,14 +92,14 @@ export default function App() {
           </div>
 
           {/* Navegação Desktop */}
-          <nav className="hidden sm:flex items-center gap-6" aria-label="Navegação Principal">
+          <nav className="hidden sm:flex items-center gap-2" aria-label="Navegação Principal">
             <button
               type="button"
               onClick={() => handleTabChange("juros-compostos")}
-              className={`text-xs font-semibold uppercase tracking-wider transition-colors cursor-pointer ${
+              className={`h-8 px-3.5 rounded-[4px] text-xs font-semibold uppercase tracking-wider transition-all duration-150 cursor-pointer flex items-center justify-center ${
                 activeTab === "juros-compostos"
-                  ? "text-[#16804A]"
-                  : "text-[#D9DEE7] hover:text-white"
+                  ? "bg-[#16804A] text-white border border-[#16804A] shadow-sm"
+                  : "bg-[#2D3948] hover:bg-[#374659] text-[#D9DEE7] hover:text-white border border-[#3A495C]/70"
               }`}
             >
               Juros Compostos
@@ -107,10 +107,10 @@ export default function App() {
             <button
               type="button"
               onClick={() => handleTabChange("reserva-emergencia")}
-              className={`text-xs font-semibold uppercase tracking-wider transition-colors cursor-pointer ${
+              className={`h-8 px-3.5 rounded-[4px] text-xs font-semibold uppercase tracking-wider transition-all duration-150 cursor-pointer flex items-center justify-center ${
                 activeTab === "reserva-emergencia"
-                  ? "text-[#16804A]"
-                  : "text-[#D9DEE7] hover:text-white"
+                  ? "bg-[#16804A] text-white border border-[#16804A] shadow-sm"
+                  : "bg-[#2D3948] hover:bg-[#374659] text-[#D9DEE7] hover:text-white border border-[#3A495C]/70"
               }`}
             >
               Reserva de Emergência
@@ -142,37 +142,39 @@ export default function App() {
           <div
             id="mobile-navigation-menu"
             ref={mobileMenuRef}
-            className="sm:hidden border-t border-[#2D3948] bg-[#1E2835] shadow-2xl"
+            className="sm:hidden border-t border-[#2D3948] bg-[#202B38] shadow-2xl px-4 py-5"
           >
-            <div className="px-4 py-3 space-y-2">
+            <div className="flex flex-col gap-[14px]">
               <button
                 type="button"
                 onClick={() => handleTabChange("juros-compostos")}
-                className={`w-full flex items-center justify-between min-h-[48px] px-4 py-3 rounded-[4px] text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer text-left ${
+                className={`w-full min-h-[52px] px-4 rounded-[6px] text-xs sm:text-sm font-semibold uppercase tracking-wider transition-all duration-150 cursor-pointer flex items-center justify-center text-center shadow-sm ${
                   activeTab === "juros-compostos"
-                    ? "bg-[#202B38] text-[#16804A] border-l-4 border-[#16804A]"
-                    : "text-[#D9DEE7] hover:bg-[#242F3E] hover:text-white"
+                    ? "bg-[#16804A] text-white border border-[#16804A]"
+                    : "bg-[#2D3948] hover:bg-[#374659] text-white border border-[#3A495C]"
                 }`}
+                style={{
+                  backgroundColor: activeTab === "juros-compostos" ? "#16804A" : "#2D3948",
+                  color: "#FFFFFF",
+                }}
               >
-                <span>Juros Compostos</span>
-                {activeTab === "juros-compostos" && (
-                  <span className="w-2 h-2 rounded-full bg-[#16804A]"></span>
-                )}
+                Juros Compostos
               </button>
 
               <button
                 type="button"
                 onClick={() => handleTabChange("reserva-emergencia")}
-                className={`w-full flex items-center justify-between min-h-[48px] px-4 py-3 rounded-[4px] text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer text-left ${
+                className={`w-full min-h-[52px] px-4 rounded-[6px] text-xs sm:text-sm font-semibold uppercase tracking-wider transition-all duration-150 cursor-pointer flex items-center justify-center text-center shadow-sm ${
                   activeTab === "reserva-emergencia"
-                    ? "bg-[#202B38] text-[#16804A] border-l-4 border-[#16804A]"
-                    : "text-[#D9DEE7] hover:bg-[#242F3E] hover:text-white"
+                    ? "bg-[#16804A] text-white border border-[#16804A]"
+                    : "bg-[#2D3948] hover:bg-[#374659] text-white border border-[#3A495C]"
                 }`}
+                style={{
+                  backgroundColor: activeTab === "reserva-emergencia" ? "#16804A" : "#2D3948",
+                  color: "#FFFFFF",
+                }}
               >
-                <span>Reserva de Emergência</span>
-                {activeTab === "reserva-emergencia" && (
-                  <span className="w-2 h-2 rounded-full bg-[#16804A]"></span>
-                )}
+                Reserva de Emergência
               </button>
             </div>
           </div>
