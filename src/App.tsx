@@ -18,6 +18,7 @@ export default function App() {
   const [activeTab, setActiveTab] = useState<ActiveTab>("juros-compostos");
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
+  const hamburgerBtnRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     const handleHash = () => {
@@ -42,10 +43,13 @@ export default function App() {
       }
     };
 
-    const handleClickOutside = (e: MouseEvent) => {
+    const handleClickOutside = (e: MouseEvent | TouchEvent) => {
+      const target = e.target as Node;
       if (
         mobileMenuRef.current &&
-        !mobileMenuRef.current.contains(e.target as Node)
+        !mobileMenuRef.current.contains(target) &&
+        hamburgerBtnRef.current &&
+        !hamburgerBtnRef.current.contains(target)
       ) {
         setMobileMenuOpen(false);
       }
@@ -54,10 +58,12 @@ export default function App() {
     if (mobileMenuOpen) {
       document.addEventListener("keydown", handleKeyDown);
       document.addEventListener("mousedown", handleClickOutside);
+      document.addEventListener("touchstart", handleClickOutside, { passive: true });
     }
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
       document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("touchstart", handleClickOutside);
     };
   }, [mobileMenuOpen]);
 
@@ -79,14 +85,14 @@ export default function App() {
         <div className="w-full max-w-5xl mx-auto px-4 sm:px-6 h-[60px] flex items-center justify-between">
           
           {/* Marca / Identidade */}
-          <div className="flex items-center gap-2">
-            <span className="font-extrabold text-white text-base tracking-tight uppercase">Natan Carneiro</span>
-            <span className="text-[#2D3948]">|</span>
-            <span className="text-[#D9DEE7] text-sm font-medium">Simuladores Financeiros</span>
+          <div className="flex items-center gap-1.5 sm:gap-2 min-w-0 pr-2">
+            <span className="font-extrabold text-white text-sm sm:text-base tracking-tight uppercase truncate">Natan Carneiro</span>
+            <span className="text-[#2D3948] shrink-0">|</span>
+            <span className="text-[#D9DEE7] text-xs sm:text-sm font-medium truncate">Simuladores Financeiros</span>
           </div>
 
-          {/* Navegação */}
-          <nav className="hidden sm:flex items-center gap-6" aria-label="Navegação">
+          {/* Navegação Desktop */}
+          <nav className="hidden sm:flex items-center gap-6" aria-label="Navegação Principal">
             <button
               type="button"
               onClick={() => handleTabChange("juros-compostos")}
@@ -112,17 +118,65 @@ export default function App() {
           </nav>
 
           {/* Hambúrguer Mobile */}
-          <div className="sm:hidden">
+          <div className="sm:hidden flex items-center shrink-0">
             <button
+              ref={hamburgerBtnRef}
               type="button"
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 text-white"
-              aria-label="Abrir menu"
+              onClick={() => setMobileMenuOpen((prev) => !prev)}
+              className="min-w-[44px] min-h-[44px] flex items-center justify-center text-white rounded-[4px] hover:bg-[#2A3747] active:bg-[#1A232E] transition-colors focus:outline-none focus:ring-2 focus:ring-[#16804A]"
+              aria-label={mobileMenuOpen ? "Fechar menu de navegação" : "Abrir menu de navegação"}
+              aria-expanded={mobileMenuOpen}
+              aria-controls="mobile-navigation-menu"
             >
-              <Menu className="h-5 w-5" />
+              {mobileMenuOpen ? (
+                <X className="h-6 w-6 text-white" aria-hidden="true" />
+              ) : (
+                <Menu className="h-6 w-6 text-white" aria-hidden="true" />
+              )}
             </button>
           </div>
         </div>
+
+        {/* Menu Mobile Dropdown */}
+        {mobileMenuOpen && (
+          <div
+            id="mobile-navigation-menu"
+            ref={mobileMenuRef}
+            className="sm:hidden border-t border-[#2D3948] bg-[#1E2835] shadow-2xl"
+          >
+            <div className="px-4 py-3 space-y-2">
+              <button
+                type="button"
+                onClick={() => handleTabChange("juros-compostos")}
+                className={`w-full flex items-center justify-between min-h-[48px] px-4 py-3 rounded-[4px] text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer text-left ${
+                  activeTab === "juros-compostos"
+                    ? "bg-[#202B38] text-[#16804A] border-l-4 border-[#16804A]"
+                    : "text-[#D9DEE7] hover:bg-[#242F3E] hover:text-white"
+                }`}
+              >
+                <span>Juros Compostos</span>
+                {activeTab === "juros-compostos" && (
+                  <span className="w-2 h-2 rounded-full bg-[#16804A]"></span>
+                )}
+              </button>
+
+              <button
+                type="button"
+                onClick={() => handleTabChange("reserva-emergencia")}
+                className={`w-full flex items-center justify-between min-h-[48px] px-4 py-3 rounded-[4px] text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer text-left ${
+                  activeTab === "reserva-emergencia"
+                    ? "bg-[#202B38] text-[#16804A] border-l-4 border-[#16804A]"
+                    : "text-[#D9DEE7] hover:bg-[#242F3E] hover:text-white"
+                }`}
+              >
+                <span>Reserva de Emergência</span>
+                {activeTab === "reserva-emergencia" && (
+                  <span className="w-2 h-2 rounded-full bg-[#16804A]"></span>
+                )}
+              </button>
+            </div>
+          </div>
+        )}
       </header>
 
       {/* ÁREA PRINCIPAL */}
